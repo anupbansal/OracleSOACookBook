@@ -5,9 +5,9 @@
    <iconize/>
    <partnerlink_locations>
       <partnerlink name="OUT_Direct_FACT_UploadPayment" x="0" y="1301" side="left"/>
-      <partnerlink name="IN_B2B_Partner1_UploadPayments" x="814" y="90" side="right"/>
+      <partnerlink name="IN_B2B_Partner1_UploadPayments" x="1058" y="90" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="132,0,880,247" show_swimlanes="true">
+   <graph_layout viewport="0,227,1256,291" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/scope" type="scope" showhandlers="true"/>

@@ -65,7 +65,7 @@
           <from><literal>0</literal></from>
         </variable>
       </variables>
-      <forEach parallel="no" counterName="InputLineIndex" name="IterateInputLines">
+      <forEach parallel="no" counterName="InputLineIndex" name="IterateThroughInputLines">
         <startCounterValue>1</startCounterValue>
         <finalCounterValue>count($PartnerB2BReceive_receive_InputVariable.body/ns3:Record-10)</finalCounterValue>
         <scope name="Scope1">
