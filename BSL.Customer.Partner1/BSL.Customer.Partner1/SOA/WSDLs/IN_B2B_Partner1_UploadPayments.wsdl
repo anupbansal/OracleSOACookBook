@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="IN_B2B_Partner1_UploadPayments"
+     targetNamespace="http://www.oracle.com/integration/b2b/BSL.Customer.Partner1/BSL.Customer.Partner1/IN_B2B_Partner1_UploadPayments"
+     xmlns:tns="http://www.oracle.com/integration/b2b/BSL.Customer.Partner1/BSL.Customer.Partner1/IN_B2B_Partner1_UploadPayments"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:b2bconfig="http://xmlns.oracle.com/pcbpel/wsdl/b2b/config/"
+     xmlns:ns1="urn:oracle:b2b/damco/customer/partner1/payments"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="receive_plt" >
+    <plt:role name="receive_role" >
+      <plt:portType name="tns:receive_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="urn:oracle:b2b/damco/customer/partner1/payments" schemaLocation="../Schemas/Partner1_PaymentUpload.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="B2BMsg">
+        <wsdl:part name="body" element="ns1:Message-PAYMENT"/>
+    </wsdl:message>
+    <wsdl:portType name="receive_ptt">
+        <wsdl:operation name="receive">
+           <b2bconfig:parameters 
+               UIDocRef="PositionalFlatFile--Payments--Partner1--MessageDef"
+               UISOAServer="soa_server1"
+               UIConnectionName="DevServer" />
+            <wsdl:input message="tns:B2BMsg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

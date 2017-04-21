@@ -1,0 +1,27 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="IN_Direct_FACT_UploadPayment"
+     targetNamespace="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+     xmlns:tns="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+     xmlns:inp1="urn:oracle:b2b/damco/a2a/fact/payment"
+     xmlns:inp2="http://xmlns.oracle.com/singleString"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="urn:oracle:b2b/damco/a2a/fact/payment" schemaLocation="../Schemas/FACT_PaymentUpload.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.oracle.com/singleString" schemaLocation="../Schemas/singleString.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="FACTInputData" element="inp1:Message-PAYMENT"/>
+        <wsdl:part name="PartnerName" element="inp2:singleString"/>
+    </wsdl:message>
+    <wsdl:portType name="execute_ptt">
+        <wsdl:operation name="UploadDocument">
+            <wsdl:input message="tns:requestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<sensors targetNamespace="http://xmlns.oracle.com/BDL_A2A_FACT/BDL_A2A_FACT/UploadPayment" xmlns="http://xmlns.oracle.com/bpel/sensor" xmlns:tns="http://xmlns.oracle.com/BDL_A2A_FACT/BDL_A2A_FACT/UploadPayment" xmlns:pc="http://xmlns.oracle.com/bpel/sensor" xmlns:ns3="urn:oracle:b2b/damco/a2a/fact/payment">
+   <sensor sensorName="TempRecordHeaderSensor" classname="oracle.tip.pc.services.reports.dca.agents.BpelActivitySensorAgent" kind="activity" target="ApplyGenericRulesToHeader">
+      <activityConfig evalTime="all">
+         <variable outputDataType="GroupRecord-01" outputNamespace="urn:oracle:b2b/damco/a2a/fact/payment" target="$TempRecord/ns3:GroupRecord-01/ns3:Record-10"/>
+      </activityConfig>
+   </sensor>
+</sensors>

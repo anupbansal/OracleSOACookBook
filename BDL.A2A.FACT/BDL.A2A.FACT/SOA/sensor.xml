@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sensors xmlns="http://xmlns.oracle.com/bpel/sensor">
+    <sensor sensorName="InputSensor" kind="service" target="undefined" filter="" xmlns:inp1="urn:oracle:b2b/damco/a2a/fact/payment">
+        <serviceConfig service="IN_Direct_FACT_UploadPayment" expression="$in.FACTInputData/inp1:Message-PAYMENT" operation="UploadDocument" outputDataType="Message-PAYMENT" outputNamespace="urn:oracle:b2b/damco/a2a/fact/payment"/>
+    </sensor>
+</sensors>

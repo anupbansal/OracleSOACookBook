@@ -1,0 +1,16 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="IN_Direct_FACT_UploadPayment"
+     targetNamespace="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="IN_Direct_FACT_UploadPayment">
+        <plnk:role name="execute_ptt" portType="tns:execute_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+         location="IN_Direct_FACT_UploadPayment.wsdl"/>
+</wsdl:definitions>

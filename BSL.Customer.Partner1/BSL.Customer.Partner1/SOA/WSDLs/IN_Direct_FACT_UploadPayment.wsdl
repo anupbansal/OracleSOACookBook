@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+     name="IN_Direct_FACT_UploadPayment"
+     targetNamespace="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+     xmlns:tns="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+     xmlns:inp1="urn:oracle:b2b/damco/a2a/fact/payment"
+     xmlns:inp2="http://xmlns.oracle.com/singleString"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:documentation>
+        <abstractWSDL>http://localhost:7003/soa-infra/directWsdl/default/BDL.A2A.FACT!1.0/IN_Direct_FACT_UploadPayment?resource=%2FWSDLs%2FIN_Direct_FACT_UploadPayment.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="urn:oracle:b2b/damco/a2a/fact/payment" schemaLocation="../Schemas/FACT_PaymentUpload.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.oracle.com/singleString" schemaLocation="../Schemas/singleString.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="FACTInputData" element="inp1:Message-PAYMENT"/>
+        <wsdl:part name="PartnerName" element="inp2:singleString"/>
+    </wsdl:message>
+    <wsdl:portType name="execute_ptt">
+        <wsdl:operation name="UploadDocument">
+            <wsdl:input message="tns:requestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="execute_pttDirectBinding1.1" type="tns:execute_ptt">
+        <soap:binding xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" transport="http://xmlns.oracle.com/soa/direct"/>
+        <wsdl:operation name="UploadDocument">
+            <soap:operation xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" style="document" soapAction="UploadDocument"/>
+            <wsdl:input>
+                <soap:body xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" namespace="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+                     parts="PartnerName"/>
+                <soap:header xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" message="tns:requestMessage"
+                     part="FACTInputData" use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="execute_pttDirectBinding1.2" type="tns:execute_ptt">
+        <soap12:binding xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" transport="http://xmlns.oracle.com/soa/direct"/>
+        <wsdl:operation name="UploadDocument">
+            <soap12:operation xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" style="document" soapAction="UploadDocument"
+                 soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" use="literal" namespace="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+                     parts="PartnerName"/>
+                <soap12:header xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" message="tns:requestMessage"
+                     part="FACTInputData" use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="IN_Direct_FACT_UploadPayment">
+        <wsdl:port name="IN_Direct_FACT_UploadPaymentDirectBindingPort11" binding="tns:execute_pttDirectBinding1.1">
+            <soap:address xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" location="t3://localhost:7003/default/BDL.A2A.FACT!1.0/IN_Direct_FACT_UploadPayment"/>
+        </wsdl:port>
+        <wsdl:port name="IN_Direct_FACT_UploadPaymentDirectBindingPort12" binding="tns:execute_pttDirectBinding1.2">
+            <soap12:address xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" location="t3://localhost:7003/default/BDL.A2A.FACT!1.0/IN_Direct_FACT_UploadPayment"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

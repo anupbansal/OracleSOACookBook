@@ -1,0 +1,152 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Mar 31 13:46:22 CEST 2017
+  Author:  ADMABA466
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="UploadPayment"
+               targetNamespace="http://xmlns.oracle.com/BDL_A2A_FACT/BDL_A2A_FACT/UploadPayment"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/BDL_A2A_FACT/BDL_A2A_FACT/UploadPayment"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://www.oracle.com/integration/b2b/BDL.A2A.FACT/BDL.A2A.FACT/OUT_B2B_FACT_UploadPayment"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:ns2="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns3="urn:oracle:b2b/damco/a2a/fact/payment"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="http://xmlns.oracle.com/singleString"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="urn:oracle:b2b/damco/a2a/fact/payment" location="../Schemas/FACT_PaymentUpload.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.oracle.com/integration/b2b/BDL.A2A.FACT/BDL.A2A.FACT/OUT_B2B_FACT_UploadPayment"
+          location="../WSDLs/OUT_B2B_FACT_UploadPayment.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="OUT_B2B_FACT_UploadPayment" partnerLinkType="ns1:send_plt" partnerRole="send_role"/>
+    <partnerLink name="IN_Direct_FACT_UploadPayment" partnerLinkType="ns2:IN_Direct_FACT_UploadPayment"
+                 myRole="execute_ptt"/>
+  </partnerLinks>
+  <variables>
+    <variable name="ServiceInput_UploadDocument_InputVariable" messageType="ns2:requestMessage"/>
+    <variable name="SendToFact_send_InputVariable" messageType="ns1:B2BMsg"/>
+  </variables>
+  <sequence name="main">
+    <receive name="ServiceInput" createInstance="yes" partnerLink="IN_Direct_FACT_UploadPayment"
+             portType="ns2:execute_ptt" operation="UploadDocument"
+             variable="ServiceInput_UploadDocument_InputVariable"/>
+    <scope name="Scope1">
+      <sequence name="Sequence3">
+        <forEach parallel="no" counterName="IteratorIndex" name="IterateInputRecords">
+          <startCounterValue>1</startCounterValue>
+          <finalCounterValue>count($ServiceInput_UploadDocument_InputVariable.FACTInputData/ns3:GroupRecord-01)</finalCounterValue>
+          <scope name="Scope2">
+            <variables>
+              <variable name="TempRecord" type="ns3:GroupRecord-01"/>
+            </variables>
+            <sequence name="Sequence1">
+              <assign name="CopyToTemp">
+                <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                  <from>$ServiceInput_UploadDocument_InputVariable.FACTInputData/ns3:GroupRecord-01[$IteratorIndex]</from>
+                  <to>$TempRecord</to>
+                </copy>
+              </assign>
+              <assign name="ApplyGenericRulesToHeader">
+                <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                  <from>xp20:upper-case($TempRecord/ns3:Record-10/ns3:Field-FiscalNumber)</from>
+                  <to>$TempRecord/ns3:Record-10/ns3:Field-FiscalNumber</to>
+                </copy>
+                <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                  <from>xp20:upper-case($TempRecord/ns3:Record-10/ns3:Field-Name)</from>
+                  <to>$TempRecord/ns3:Record-10/ns3:Field-Name</to>
+                </copy>
+              </assign>
+              <forEach parallel="no" counterName="LinesIteratorIndex" name="IterateLines">
+                <startCounterValue>1</startCounterValue>
+                <finalCounterValue>count($TempRecord/ns3:Record-20)</finalCounterValue>
+                <scope name="Scope3">
+                  <variables>
+                    <variable name="LineTempRecord" type="ns3:Record-20"/>
+                  </variables>
+                  <sequence name="Sequence2">
+                    <assign name="CopyLine">
+                      <copy>
+                        <from>$TempRecord/ns3:Record-20[$LinesIteratorIndex]</from>
+                        <to>$LineTempRecord</to>
+                      </copy>
+                    </assign>
+                    <assign name="RemoveDecimal">
+                      <copy bpelx:insertMissingToData="yes" ignoreMissingFromData="yes">
+                        <from>translate($LineTempRecord/ns3:Field-Amount,",.","")</from>
+                        <to>$LineTempRecord/ns3:Field-Amount</to>
+                      </copy>
+                    </assign>
+                    <assign name="CopyTempBack">
+                      <copy>
+                        <from>$LineTempRecord</from>
+                        <to>$TempRecord/ns3:Record-20[$LinesIteratorIndex]</to>
+                      </copy>
+                    </assign>
+                  </sequence>
+                </scope>
+              </forEach>
+              <assign name="CopyToInput">
+                <copy>
+                  <from>$TempRecord</from>
+                  <to>$ServiceInput_UploadDocument_InputVariable.FACTInputData/ns3:GroupRecord-01[$IteratorIndex]</to>
+                </copy>
+              </assign>
+            </sequence>
+          </scope>
+        </forEach>
+        <assign name="FinalCopy">
+          <copy>
+            <from>$ServiceInput_UploadDocument_InputVariable.FACTInputData</from>
+            <to>$SendToFact_send_InputVariable.body</to>
+          </copy>
+        </assign>
+        <assign name="ParserSet">
+          <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+            <from><literal>PFF</literal></from>
+            <to>$SendToFact_send_InputVariable.body/@Standard</to>
+          </copy>
+        </assign>
+      </sequence>
+    </scope>
+    <invoke name="SendToFact" partnerLink="OUT_B2B_FACT_UploadPayment"
+            portType="ns1:send_ptt" operation="send" inputVariable="SendToFact_send_InputVariable"
+            bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="b2b.messageType">string("1")</bpelx:toProperty>
+        <bpelx:toProperty name="b2b.toTradingPartnerId">string("FACT")</bpelx:toProperty>
+        <bpelx:toProperty name="b2b.fromTradingPartnerId">string("DAMCO")</bpelx:toProperty>
+        <bpelx:toProperty name="b2b.documentDefinitionName">string("MessageDef")</bpelx:toProperty>
+        <bpelx:toProperty name="b2b.documentProtocolName">string("PositionalFlatFile")</bpelx:toProperty>
+        <bpelx:toProperty name="b2b.documentProtocolVersion">string("Payments")</bpelx:toProperty>
+        <bpelx:toProperty name="b2b.documentTypeName">string("FACT")</bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+  </sequence>
+</process>

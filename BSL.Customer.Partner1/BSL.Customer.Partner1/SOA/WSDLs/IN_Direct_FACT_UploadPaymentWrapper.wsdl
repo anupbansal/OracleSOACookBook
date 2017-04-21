@@ -1,0 +1,22 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="IN_Direct_FACT_UploadPayment"
+     targetNamespace="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:ns1="urn:oracle:b2b/damco/customer/partner1/payments"
+    >
+    <plnk:partnerLinkType name="OUT_Direct_FACT_UploadPayment">
+        <plnk:role name="execute_ptt" portType="tns:execute_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://oracle.com/sca/soapservice/BDL.A2A.FACT/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment"
+         location="http://localhost:7003/soa-infra/directWsdl/default/BDL.A2A.FACT/IN_Direct_FACT_UploadPayment?resource=%2FWSDLs%2FIN_Direct_FACT_UploadPayment.wsdl"/>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="urn:oracle:b2b/damco/customer/partner1/payments" schemaLocation="../Schemas/Partner1_PaymentUpload.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+</wsdl:definitions>

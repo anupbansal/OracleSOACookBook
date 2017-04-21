@@ -1,0 +1,33 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="OUT_B2B_FACT_UploadPayment"
+     targetNamespace="http://www.oracle.com/integration/b2b/BDL.A2A.FACT/BDL.A2A.FACT/OUT_B2B_FACT_UploadPayment"
+     xmlns:tns="http://www.oracle.com/integration/b2b/BDL.A2A.FACT/BDL.A2A.FACT/OUT_B2B_FACT_UploadPayment"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:b2bconfig="http://xmlns.oracle.com/pcbpel/wsdl/b2b/config/"
+     xmlns:ns1="urn:oracle:b2b/damco/a2a/fact/payment"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plt:partnerLinkType name="send_plt">
+        <plt:role name="send_role">
+            <plt:portType name="tns:send_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.oracle.com/integration/b2b/BDL.A2A.FACT/BDL.A2A.FACT/OUT_B2B_FACT_UploadPayment"
+             xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:b2bconfig="http://xmlns.oracle.com/pcbpel/wsdl/b2b/config/"
+             xmlns:ns1="urn:oracle:b2b/damco/a2a/fact/payment" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="urn:oracle:b2b/damco/a2a/fact/payment" schemaLocation="../Schemas/FACT_PaymentUpload.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="B2BMsg">
+        <wsdl:part name="body" element="ns1:Message-PAYMENT"/>
+    </wsdl:message>
+    <wsdl:portType name="send_ptt">
+        <wsdl:operation name="send">
+            <b2bconfig:parameters UIDocRef="PositionalFlatFile--Payments--FACT--MessageDef" UISOAServer="soa_server1"
+                 UIConnectionName="DevServer"/>
+            <wsdl:input message="tns:B2BMsg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
