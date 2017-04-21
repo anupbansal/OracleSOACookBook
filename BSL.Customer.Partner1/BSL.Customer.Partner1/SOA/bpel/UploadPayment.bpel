@@ -76,7 +76,7 @@
             <variable name="MessageTempInput" messageType="ns2:B2BMsg"/>
           </variables>
           <sequence name="Sequence1">
-            <assign name="CopyToTemp">
+            <assign name="CopyingToTemp">
               <copy>
                 <from>$PartnerB2BReceive_receive_InputVariable.body/ns3:Record-10[$InputLineIndex]</from>
                 <to>$TempInputRecord</to>
